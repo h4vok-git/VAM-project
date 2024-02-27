@@ -2,3 +2,15 @@ body {
     font-family: "Helvetica", "Arial";
 
 }
+.left {
+    width: 20%;
+    float: left;
+    text-align: right;
+}
+.right {
+    width: 60%;
+    margin-left: 10px;
+    float: left;
+}
+
+    /* dont need multiple search boxes only one is need */ 
