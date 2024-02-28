@@ -1,6 +1,67 @@
-body {
-    font-family: "Helvetica", "Arial";
+@media only screen and (min-width:600px) {
+/* FOR DESKTOP */
+    body {
+        font-family: "Helvetica", "Arial";
 
+    }
+
+    h1 { 
+        text-align: center;
+        font-size: large;
+    }
+
+    img {
+        max-width: 30%;
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .searchbar {
+        padding: 10px;
+        text-align: center;
+    }
+
+    form > input {
+        width: 50%;
+        border-radius: 10px;
+        font-size: 120%;
+    }
 }
 
 
+
+
+
+@media only screen and (max-width:600px) {
+/* FOR MOBILE */
+    body {
+        font-family: "Helvetica", "Arial";
+
+    }
+
+    h1 { 
+        text-align: center;
+        font-size: large;
+    }
+
+    img {
+        max-width: 30%;
+        height: auto;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .searchbar {
+        padding: 10px;
+        text-align: center;
+    }
+
+    form > input {
+        width: 80%;
+        border-radius: 10px;
+        font-size: 120%;
+    }
+}
