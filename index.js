@@ -2,10 +2,8 @@
 
 window.onload=function(){
     var nameInput = document.getElementById('searchInput');
-
     document.querySelector('form.seach-form').addEventListener('submit', function (e) {
-
-
+        
         printCollectionInfo(nameInput.value.trim());
         console.log(nameInput.value); 
         //prevent the normal submission of the form
@@ -17,6 +15,10 @@ window.onload=function(){
    
     // a function that fetches URL and stores the json data into a variable and prints it
     async function printCollectionInfo(searchterm) {
+        if (!searchterm) {
+            alert("please enter a valid search term");
+        }
+        else {
         //creates variable
         var collectionInfo = "initial";  
         //URI of collection                               
@@ -25,11 +27,10 @@ window.onload=function(){
         .then(data => {
             collectionInfo = data;
             //print search results to console
-            console.log(collectionInfo);      
-        })
+            console.log(collectionInfo);})
+        }
     }
 
-    
 
 
 
