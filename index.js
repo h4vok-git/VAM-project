@@ -4,7 +4,9 @@ window.onload=function(){
     var nameInput = document.getElementById('searchInput');
     document.querySelector('form.seach-form').addEventListener('submit', function (e) {
         
-        printCollectionInfo(nameInput.value.trim());
+        //printCollectionInfo(nameInput.value.trim());
+        var theSearchResultRecord = printCollectionInfo(nameInput.value.trim());
+        document.getElementById("demo").innerHTML = theSearchResultRecord;
         console.log(nameInput.value); 
         //prevent the normal submission of the form
         e.preventDefault();
@@ -27,9 +29,19 @@ window.onload=function(){
         .then(data => {
             collectionInfo = data;
             //print search results to console
-            console.log(collectionInfo);})
+            console.log(collectionInfo);
+            displayCollection(data);
+        })
+            
         }
     }
+    
+    function displayCollection(data){
+        const name = data.records[1];
+        console.log(name);
+    }
+    
+    
 
 
 
@@ -38,11 +50,9 @@ window.onload=function(){
 
 
 
+/*
 
-
-
-
-    /* test code below for debugging purposes */
+    // test code below for debugging purposes
 
 
 
@@ -67,7 +77,6 @@ window.onload=function(){
     
 
 }
-
 
 
 
