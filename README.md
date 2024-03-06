@@ -7,3 +7,4 @@ The following project uses the public API of the Victoria & Albert Museum to sea
 
 The website features a dynamic, responsive Single Page Application (SPA) and uses asynchronous HTTP requests to query the API with the search term. This project uses only vanilla HTML, CSS and JS; no frameworks or external libraries are to be used. 
 
+by Humza Ali
