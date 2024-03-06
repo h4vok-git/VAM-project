@@ -36,9 +36,16 @@ window.onload=function(){
         }
     }
     
+    // prints the 2nd record in the array 
     function displayCollection(data){
         const name = data.records[1];
         console.log(name);
+        console.log(name.systemNumber)
+        //innerhtml is unsafe 
+        document.getElementById("demo1").innerHTML = name.systemNumber + " " + name.objectType + " " + name._primaryTitle;
+        document.getElementById("picturelink").innerHTML = name._images._primary_thumbnail;
+
+
     }
     
     
