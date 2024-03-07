@@ -17,22 +17,29 @@ window.onload=function(){
    
     // a function that fetches URL and stores the json data into a variable and prints it
     async function printCollectionInfo(searchterm) {
-        if (!searchterm) {
-            alert("please enter a valid search term");
-        }
-        else {
-        //creates variable
-        var collectionInfo = "initial";  
-        //URI of collection                               
-        fetch('https://api.vam.ac.uk/v2/objects/search?q='+searchterm+'&order_sort=asc&page=1&page_size=15')   //await is used incorrectly here refer to week 1.5
-        .then(response => response.json())
-        .then(data => {
-            collectionInfo = data;
-            //print search results to console
-            console.log(collectionInfo);
-            displayCollection(data);
-        })
+        try {
+            if (!searchterm) {
+                alert("please enter a valid search term");
+            }
+            else {
+            //creates variable
+            var collectionInfo = "initial";  
+            //URI of collection                               
+            const response = await fetch('https://api.vam.ac.uk/v2/objects/search?q='+searchterm+'&order_sort=asc&page=1&page_size=15');   //await is used incorrectly here refer to week 1.5
             
+            if(!response.ok) {
+                throw new Error("HTTP fetch error!")
+            }
+            const data = await response.json();
+            collectionInfo = data;
+
+                console.log(collectionInfo);
+                displayCollection(data);
+                
+            }
+        }  
+        catch (error) {
+            console.error("Error" + error.message + " this may also be due to an invalid search term");
         }
     }
     
@@ -43,8 +50,7 @@ window.onload=function(){
         console.log(name.systemNumber)
         //innerhtml is unsafe 
         document.getElementById("demo1").innerHTML = name.systemNumber + " " + name.objectType + " " + name._primaryTitle;
-        document.getElementById("picturelink").innerHTML = name._images._primary_thumbnail;
-
+        document.getElementById("picturelink").innerHTML = '<img src="' + name._images._primary_thumbnail + '" alt="Collection Image">';
 
     }
     
