@@ -3,13 +3,18 @@
 window.onload=function(){
     var nameInput = document.getElementById('searchInput');
     document.querySelector('form.seach-form').addEventListener('submit', function (e) {
-        
+        e.preventDefault();
+        try {
         //printCollectionInfo(nameInput.value.trim());
         var theSearchResultRecord = printCollectionInfo(nameInput.value.trim());
         document.getElementById("demo").innerHTML = theSearchResultRecord;
         console.log(nameInput.value); 
         //prevent the normal submission of the form
-        e.preventDefault();
+        } 
+        catch (error) {
+            console.error("Error:" + error.message);
+        }
+        
 
            
     });
@@ -25,7 +30,7 @@ window.onload=function(){
             //creates variable
             var collectionInfo = "initial";  
             //URI of collection                               
-            const response = await fetch('https://api.vam.ac.uk/v2/objects/search?q='+searchterm+'&order_sort=asc&page=1&page_size=15');   //await is used incorrectly here refer to week 1.5
+            const response = await fetch('https://api.vam.ac.uk/v2/objects/search?q='+searchterm+'&order_sort=asc&page=1&page_size=15');   
             
             if(!response.ok) {
                 throw new Error("HTTP fetch error!")
@@ -39,19 +44,47 @@ window.onload=function(){
             }
         }  
         catch (error) {
-            console.error("Error" + error.message + " this may also be due to an invalid search term");
+            console.error("Error" + error.message + "  this may also be due to an invalid search term");
         }
     }
     
     // prints the 2nd record in the array 
     function displayCollection(data){
-        const name = data.records[1];
-        console.log(name);
-        console.log(name.systemNumber)
-        //innerhtml is unsafe 
-        document.getElementById("demo1").innerHTML = name.systemNumber + " " + name.objectType + " " + name._primaryTitle;
-        document.getElementById("picturelink").innerHTML = '<img src="' + name._images._primary_thumbnail + '" alt="Collection Image">';
 
+        // create container for each record 
+
+        const displayElement = document.getElementById("displayResults");
+
+        for (let i = 0; i < data.records. length; i ++) {
+            const currentRecord = data.records[i];
+
+            //create div for each record 
+            const recordContainer = document.createElement("div");
+
+            //shows name and id number for each item
+            console.log(currentRecord);
+            console.log(currentRecord.systemNumber, currentRecord.objectType, currentRecord._primaryTitle);
+
+            const recordInfo = document.createElement("p");
+            recordInfo.textContent = `${currentRecord.systemNumber} ${currentRecord.objectType} ${currentRecord._primaryTitle}`;
+            recordContainer.appendChild(recordInfo);
+    
+
+            // Check if the current record has an image URL
+        if (currentRecord._images && currentRecord._images._primary_thumbnail) {
+            // Create an image element
+            const imgElement = document.createElement("img");
+            // Set the image source and alt attribute
+            imgElement.src = currentRecord._images._primary_thumbnail;
+            imgElement.alt = "Collection Image";
+            // Append the image element to the record container
+            recordContainer.appendChild(imgElement);
+        }
+
+        // Append the record container to the display element
+        displayElement.appendChild(recordContainer);
+        }
+        }
     }
     
     
@@ -89,7 +122,7 @@ window.onload=function(){
     
     
 
-}
+
 
 
 
