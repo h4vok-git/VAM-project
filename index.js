@@ -3,19 +3,13 @@
 window.onload=function(){
     var nameInput = document.getElementById('searchInput');
     document.querySelector('form.seach-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        try {
-        //printCollectionInfo(nameInput.value.trim());
-        var theSearchResultRecord = printCollectionInfo(nameInput.value.trim());
-        document.getElementById("demo").innerHTML = theSearchResultRecord;
-        console.log(nameInput.value); 
-        //prevent the normal submission of the form
-        } 
-        catch (error) {
-            console.error("Error:" + error.message);
-        }
         
-
+        if (nameInput.value.trim()) {
+            printCollectionInfo(nameInput.value.trim());
+        } else {
+            alert("Please enter a valid search term");
+        }
+        e.preventDefault();
            
     });
 
@@ -30,7 +24,7 @@ window.onload=function(){
             //creates variable
             var collectionInfo = "initial";  
             //URI of collection                               
-            const response = await fetch('https://api.vam.ac.uk/v2/objects/search?q='+searchterm+'&order_sort=asc&page=1&page_size=15');   
+            const response = await fetch('https://api.vam.ac.uk/v2/objects/search?q='+searchterm+'&order_sort=asc&page=1&page_size=50');   
             
             if(!response.ok) {
                 throw new Error("HTTP fetch error!")
@@ -47,24 +41,35 @@ window.onload=function(){
             console.error("Error" + error.message + "  this may also be due to an invalid search term");
         }
     }
-    
+
     // prints the 2nd record in the array 
     function displayCollection(data){
 
         // create container for each record 
-
         const displayElement = document.getElementById("displayResults");
+        //cleans the collection entry after new search term is typed 
+        displayElement.innerHTML = "";
+
+        if (data.records.length === 0) {
+            // Display a message when no records are found
+            const noResultsMessage = document.createElement("p");
+            noResultsMessage.classList.add("noResultsMessage");
+            noResultsMessage.textContent = "No results found.";
+            displayElement.appendChild(noResultsMessage);
+        }
 
         for (let i = 0; i < data.records. length; i ++) {
             const currentRecord = data.records[i];
 
             //create div for each record 
             const recordContainer = document.createElement("div");
+            recordContainer.className="collectionEntry"
 
-            //shows name and id number for each item
+            //shows name and id number for each item in CONSOLE
             console.log(currentRecord);
             console.log(currentRecord.systemNumber, currentRecord.objectType, currentRecord._primaryTitle);
 
+            //display text 
             const recordInfo = document.createElement("p");
             recordInfo.textContent = `${currentRecord.systemNumber} ${currentRecord.objectType} ${currentRecord._primaryTitle}`;
             recordContainer.appendChild(recordInfo);
@@ -74,13 +79,17 @@ window.onload=function(){
         if (currentRecord._images && currentRecord._images._primary_thumbnail) {
             // Create an image element
             const imgElement = document.createElement("img");
-            // Set the image source and alt attribute
+            // Set the image source 
             imgElement.src = currentRecord._images._primary_thumbnail;
-            imgElement.alt = "Collection Image";
             // Append the image element to the record container
             recordContainer.appendChild(imgElement);
         }
-
+        else{
+            const emptyImg = document.createElement("img");
+            emptyImg.src = "images/empty.jpg";
+            recordContainer.appendChild(emptyImg);
+            emptyImg.alt = "Placeholder Image";
+        }
         // Append the record container to the display element
         displayElement.appendChild(recordContainer);
         }
@@ -96,30 +105,7 @@ window.onload=function(){
 
 
 
-/*
 
-    // test code below for debugging purposes
-
-
-
-
-     // prints the search term to console
-     function searchQuery() {
-        var input = document.getElementById("searchInput").value;
-        console.log(input);
-    }
-
-    // test section of code that searches for china
-    fetch("https://api.vam.ac.uk/v2/objects/search?q=china&order_sort=asc&page=1&page_size=15")
-    .then(response => response.json())
-    .then((json) => console.log(json))
-
-    // test section of code that searches for specific ID
-    /* fetch("https://api.vam.ac.uk/v2/museumobject/O828146")
-    .then((response) => response.json())
-    .then((json) => console.log(json));
-    */
-    
     
 
 

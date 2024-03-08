@@ -1,6 +1,5 @@
 body {
     font-family: "Helvetica", "Arial";
-
 }
 
 h1 { 
@@ -15,13 +14,60 @@ form > button {
     font-size: medium;
 }
 
+footer {
+    margin-top: auto; 
+}
 
+.loadMoreButton{
+    align-self: center;
+    margin-bottom: 20px; 
+}
+
+
+
+.collectionEntry {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+
+}
+
+.collectionEntry > p {
+    display: inline;
+    margin-left: 10px;
+}
+.collectionEntry > img {
+    max-width: 100%; 
+
+}
+
+.noResultsMessage {
+    font-size: x-large;
+    font-weight: bold;
+    text-align: center;
+    margin: 20px auto; /* Adjust the margin as needed */
+    width: 80%; /* Adjust the width as needed */
+    display: block; /* Ensure it's a block-level element */
+}
+
+.anotherdiv {
+    text-align: center;
+}
 
 @media only screen and (min-width:600px) {
 /* FOR DESKTOP */
 
+    #displayResults {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 250px);
+        justify-content: space-around; 
+    }
+    
     img {
-        max-width: 30%;
+        max-width: 20%;
         height: auto;
         max-height: 400px;
         display: block;
@@ -31,6 +77,10 @@ form > button {
 
     .searchbar {
         padding: 10px;
+        text-align: center;
+    }
+
+    .loadMoreButton {
         text-align: center;
     }
 
@@ -47,6 +97,18 @@ form > button {
 
 @media only screen and (max-width:600px) {
 /* FOR MOBILE */
+    
+    .collectionEntry {
+      display:flex;
+      padding: 10px;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .collectionEntry > img {
+        margin-right: 5px;
+        
+    }
 
     img {
         max-width: 50%;
