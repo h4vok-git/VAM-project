@@ -1,9 +1,11 @@
 
 
 window.onload=function(){
+    var page = 1; //sets page to 1 on load 
     var nameInput = document.getElementById('searchInput');
     document.querySelector('form.search-form').addEventListener('submit', function (e) {
         
+
         if (nameInput.value.trim()) {
             printCollectionInfo(nameInput.value.trim());
         } else {
@@ -13,7 +15,14 @@ window.onload=function(){
            
     });
 
-   
+
+    //detects if load more has been pressed and increments page variable
+    document.getElementById('loadMoreButton').addEventListener('click', function () {
+        page++; 
+        printCollectionInfo(nameInput.value.trim(), page);
+    });
+
+    
     // a function that fetches URL and stores the json data into a variable and prints it
     async function printCollectionInfo(searchterm) {
         try {
@@ -24,7 +33,7 @@ window.onload=function(){
             //creates variable
             var collectionInfo = "initial";  
             //URI of collection                               
-            const response = await fetch('https://api.vam.ac.uk/v2/objects/search?q='+searchterm+'&order_sort=asc&page=1&page_size=50'); 
+            const response = await fetch('https://api.vam.ac.uk/v2/objects/search?q='+searchterm+'&order_sort=asc&page='+page+'&page_size=50'); 
             console.log(response);  
             
             if(!response.ok) {
@@ -43,7 +52,7 @@ window.onload=function(){
         }
     }
 
-    // prints the 2nd record in the array 
+    
     function displayCollection(data){
 
         // create container for each record 
@@ -59,6 +68,7 @@ window.onload=function(){
             displayElement.appendChild(noResultsMessage);
         }
 
+        // for loop that loops through each record one by one
         for (let i = 0; i < data.records. length; i ++) {
             const currentRecord = data.records[i];
 
@@ -84,11 +94,10 @@ window.onload=function(){
         if (currentRecord._images && currentRecord._images._primary_thumbnail) {
             // Create an image element
             const imgElement = document.createElement("img");
-            // Set the image source 
             imgElement.src = currentRecord._images._primary_thumbnail;
-            // Append the image element to the record container
             recordContainer.appendChild(imgElement);
         }
+        //else statment adds a placeholder image if an image is not found
         else{
             const emptyImg = document.createElement("img");
             emptyImg.src = "images/empty.jpg";
