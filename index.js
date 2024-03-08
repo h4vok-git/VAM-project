@@ -2,7 +2,7 @@
 
 window.onload=function(){
     var nameInput = document.getElementById('searchInput');
-    document.querySelector('form.seach-form').addEventListener('submit', function (e) {
+    document.querySelector('form.search-form').addEventListener('submit', function (e) {
         
         if (nameInput.value.trim()) {
             printCollectionInfo(nameInput.value.trim());
@@ -24,7 +24,8 @@ window.onload=function(){
             //creates variable
             var collectionInfo = "initial";  
             //URI of collection                               
-            const response = await fetch('https://api.vam.ac.uk/v2/objects/search?q='+searchterm+'&order_sort=asc&page=1&page_size=50');   
+            const response = await fetch('https://api.vam.ac.uk/v2/objects/search?q='+searchterm+'&order_sort=asc&page=1&page_size=50'); 
+            console.log(response);  
             
             if(!response.ok) {
                 throw new Error("HTTP fetch error!")
@@ -32,7 +33,7 @@ window.onload=function(){
             const data = await response.json();
             collectionInfo = data;
 
-                console.log(collectionInfo);
+                console.log(data);
                 displayCollection(data);
                 
             }
@@ -71,7 +72,11 @@ window.onload=function(){
 
             //display text 
             const recordInfo = document.createElement("p");
-            recordInfo.textContent = `${currentRecord.systemNumber} ${currentRecord.objectType} ${currentRecord._primaryTitle}`;
+            //innerHTML was necessary as <br> would appear formatted as string 
+            //the very long line below is all the text that is displayed
+            recordInfo.innerHTML = `<br><strong>Title</strong>: ${currentRecord._primaryTitle}<br><strong>Object Type</strong>: ${currentRecord.objectType}<br>
+            <strong>Origin</strong>: ${currentRecord._primaryPlace}<br><strong>Date</strong>: ${currentRecord._primaryDate}<br><strong>Item Code</strong>: ${currentRecord.systemNumber}<br><br>`;
+
             recordContainer.appendChild(recordInfo);
     
 
